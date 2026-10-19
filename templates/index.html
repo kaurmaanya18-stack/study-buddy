@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyBuddy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="topbar">
+        <h1>StudyBuddy</h1>
+        <p>Your personal productivity dashboard</p>
+    </header>
+
+    <main class="container">
+        <section class="welcome">
+            <h2>Welcome back!</h2>
+            <p>Small steps every day lead to big results.</p>
+        </section>
+
+        <section class="dashboard">
+            <article class="card">
+                <h3>Total Tasks</h3>
+                <p class="number">{{ total }}</p>
+            </article>
+
+            <article class="card">
+                <h3>Completed</h3>
+                <p class="number">{{ completed }}</p>
+            </article>
+
+            <article class="card">
+                <h3>Pending</h3>
+                <p class="number">{{ pending }}</p>
+            </article>
+        </section>
+
+        <section class="tasks">
+            <h2>Add a Task</h2>
+
+            <form class="task-form" action="{{ url_for('add_task') }}" method="POST">
+                <label for="title">Task name</label>
+                <input id="title" type="text" name="title"
+                       placeholder="e.g. Revise mathematics" required>
+
+                <label for="due_date">Due date (optional)</label>
+                <input id="due_date" type="date" name="due_date">
+
+                <button type="submit">Add Task</button>
+            </form>
+        </section>
+
+        <section class="tasks task-list">
+            <h2>My Tasks</h2>
+
+            {% if tasks %}
+                {% for task in tasks %}
+                    <article class="task-item">
+                        <div class="task-details">
+                            <h3 class="{{ 'completed-task' if task['completed'] else '' }}">
+                                {{ task['title'] }}
+                            </h3>
+
+                            {% if task['due_date'] %}
+                                <p>Due: {{ task['due_date'] }}</p>
+                            {% endif %}
+
+                            <p class="status">
+                                {{ 'Completed' if task['completed'] else 'Pending' }}
+                            </p>
+                        </div>
+
+                        <div class="task-actions">
+                            <form action="{{ url_for('complete_task', task_id=task['id']) }}"
+                                  method="POST">
+                                <button class="secondary-button" type="submit">
+                                    {{ 'Undo' if task['completed'] else 'Complete' }}
+                                </button>
+                            </form>
+
+                            <form action="{{ url_for('delete_task', task_id=task['id']) }}"
+                                  method="POST">
+                                <button class="delete-button" type="submit">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p class="empty-message">
+                    No tasks yet. Add your first task above!
+                </p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>
