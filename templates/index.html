@@ -13,6 +13,7 @@
     </header>
 
     <main class="container">
+
         <section class="welcome">
             <h2>Welcome back!</h2>
             <p>Small steps every day lead to big results.</p>
@@ -38,13 +39,25 @@
         <section class="tasks">
             <h2>Add a Task</h2>
 
-            <form class="task-form" action="{{ url_for('add_task') }}" method="POST">
+            <form class="task-form"
+                  action="{{ url_for('add_task') }}"
+                  method="POST">
+
                 <label for="title">Task name</label>
-                <input id="title" type="text" name="title"
-                       placeholder="e.g. Revise mathematics" required>
+                <input
+                    id="title"
+                    type="text"
+                    name="title"
+                    placeholder="e.g. Revise mathematics"
+                    required
+                >
 
                 <label for="due_date">Due date (optional)</label>
-                <input id="due_date" type="date" name="due_date">
+                <input
+                    id="due_date"
+                    type="date"
+                    name="due_date"
+                >
 
                 <button type="submit">Add Task</button>
             </form>
@@ -56,6 +69,7 @@
             {% if tasks %}
                 {% for task in tasks %}
                     <article class="task-item">
+
                         <div class="task-details">
                             <h3 class="{{ 'completed-task' if task['completed'] else '' }}">
                                 {{ task['title'] }}
@@ -71,20 +85,25 @@
                         </div>
 
                         <div class="task-actions">
-                            <form action="{{ url_for('complete_task', task_id=task['id']) }}"
-                                  method="POST">
+                            <form
+                                action="{{ url_for('complete_task', task_id=task['id']) }}"
+                                method="POST"
+                            >
                                 <button class="secondary-button" type="submit">
                                     {{ 'Undo' if task['completed'] else 'Complete' }}
                                 </button>
                             </form>
 
-                            <form action="{{ url_for('delete_task', task_id=task['id']) }}"
-                                  method="POST">
+                            <form
+                                action="{{ url_for('delete_task', task_id=task['id']) }}"
+                                method="POST"
+                            >
                                 <button class="delete-button" type="submit">
                                     Delete
                                 </button>
                             </form>
                         </div>
+
                     </article>
                 {% endfor %}
             {% else %}
@@ -92,6 +111,7 @@
                     No tasks yet. Add your first task above!
                 </p>
             {% endif %}
+
         </section>
     </main>
 </body>
