@@ -1,6 +1,6 @@
 # Study Buddy
 
-#### Video Demo: [ADD YOUR VIDEO URL HERE]
+#### Video Demo: https://youtu.be/4rzt57wrSa4
 
 #### Description:
 
